@@ -29,7 +29,7 @@ from launch_ros.actions import Node
 def generate_launch_description():
 
 
-    package_name='robotek' 
+    package_name='autobot' 
 
     rsp = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
@@ -100,7 +100,7 @@ def generate_launch_description():
     # Launch them all!
     return LaunchDescription([
         rsp,
-        twist_mux,
+        #twist_mux,
         rplidar,
         camera,
         delayed_controller_manager,
