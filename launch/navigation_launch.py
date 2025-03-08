@@ -253,7 +253,7 @@ def generate_launch_description():
     # Create the launch description and populate
     ld = LaunchDescription()
 
-    # Set environment variables
+    # Set environment variabless
     ld.add_action(stdout_linebuf_envvar)
 
     # Declare the launch options

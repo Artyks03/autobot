@@ -20,7 +20,7 @@ diff_cont:
     wheel_separation: 0.199 #cim vic, tim se vic pretaci
     wheel_radius: 0.032
 
-    use_stamped_vel: false
+    # use_stamped_vel: false
 
     # open_loop: false    
 
