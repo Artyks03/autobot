@@ -12,6 +12,7 @@
     <xacro:include filename="camera.xacro" />
 
     <!--podminka pro vyuziti ros2_control nebo gazebo_control-->
+    <!--knihovny pro popis a reseni pohybu simulovaneho nebo realneho robota-->
     <xacro:if value="$(arg use_ros2_control)">
         <xacro:include filename="ros2_control.xacro" />
     </xacro:if>

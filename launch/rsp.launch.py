@@ -21,18 +21,17 @@ def generate_launch_description():
     xacro_file = os.path.join(pkg_path,'description','robot_main.xacro')
     robot_description_params = Command(['xacro ', xacro_file, ' use_ros2_control:=', use_ros2_control, ' sim_mode:=', use_sim_time])
     
-    # Vytvoreni uzlu "/robot_state_publisher"
-    params = {'robot_description': robot_description_params, 'use_sim_time': use_sim_time}
-    robot_state_publisher = Node(
-        package='robot_state_publisher',
-        executable='robot_state_publisher',
-        output='screen',
-        parameters=[params]
-    )
 
     return LaunchDescription([
         DeclareLaunchArgument('use_sim_time', default_value='false', description='Use sim time if true'),
         DeclareLaunchArgument('use_ros2_control', default_value='true', description='Use ros2_control if true'),
 
-        robot_state_publisher # <<< UZEL
+        #Vytvoreni a spusteni uzlu "/robot_state_publisher"
+        Node(
+            package='robot_state_publisher',
+            executable='robot_state_publisher',
+            output='screen',
+            parameters=[{'robot_description': robot_description_params, 'use_sim_time': use_sim_time}]
+        )   
+
     ])

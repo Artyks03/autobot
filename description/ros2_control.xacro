@@ -11,6 +11,7 @@
                 <param name="device">/dev/serial/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.1:1.0-port0</param>
                 <param name="baud_rate">57600</param>
                 <param name="timeout">1000</param>
+                <!--3270 pulsu na 1 otacku, 77RPM motor-->
                 <param name="enc_counts_per_rev">3270</param> 
             </hardware>
             <joint name="left_wheel_joint">
@@ -32,7 +33,7 @@
         </ros2_control>
     </xacro:unless>
 
-    <xacro:if value="$(arg sim_mode)">
+    <xacro:unless value="$(arg sim_mode)">
         <ros2_control name="IgnitionSystem" type="system">
             <hardware>
                 <plugin>ign_ros2_control/IgnitionSystem</plugin>

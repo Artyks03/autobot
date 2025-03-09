@@ -2,24 +2,22 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
     <gazebo>
-        <plugin name="gz::sim::systems::DiffDrive" filename="gz-sim-diff-drive-system">
+        <plugin name="diff_drive_gazebo" filename="gz-sim-diff-drive-system">
 
-            <!-- Wheel Information -->
+            <!-- Kola -->
             <left_joint>left_wheel_joint</left_joint>
             <right_joint>right_wheel_joint</right_joint>
             <wheel_separation>0.199</wheel_separation>
-            <wheel_radius>0.064</wheel_radius>
+            <wheel_diameter>0.064</wheel_diameter>
 
-
-            <!-- Limits -->
-            <!-- <max_wheel_torque>200</max_wheel_torque> -->
+            <!-- Limity -->
             <max_linear_acceleration>0.50</max_linear_acceleration>
 
-            <!-- Input -->
+            <!-- Vstupni rychlost -->
             <topic>cmd_vel</topic>
 
             
-            <!-- Output -->
+            <!-- Vystup -->
             <frame_id>odom</frame_id>
             <child_frame_id>base_link</child_frame_id>
             <odom_topic>odom</odom_topic>
@@ -31,7 +29,7 @@
 
 
         <plugin filename="gz-sim-joint-state-publisher-system"
-            name="gz::sim::systems::JointStatePublisher">
+            name="Gazebo_JointStatePublisher">
             <topic>joint_states</topic>
             <joint_name>left_wheel_joint</joint_name>
             <joint_name>right_wheel_joint</joint_name>

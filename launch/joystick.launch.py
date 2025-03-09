@@ -31,7 +31,7 @@ def generate_launch_description():
     twist_mux = Node(
             package="twist_mux",
             executable="twist_mux",
-            parameters=[twist_mux_params],
+            parameters=[twist_mux_params, {'use_sim_time': use_sim_time}],
             remappings=[('/cmd_vel_out','/diff_cont/cmd_vel_unstamped')]
         )
 
@@ -47,10 +47,7 @@ def generate_launch_description():
     
 
     return LaunchDescription([
-        DeclareLaunchArgument(
-            'use_sim_time',
-            default_value='false',
-            description='Use sim time if true'),
+        DeclareLaunchArgument('use_sim_time', default_value='false', description='Use sim time if true'),
         joy_node,
         teleop_node,
         twist_mux,
