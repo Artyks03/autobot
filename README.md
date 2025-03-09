@@ -1,7 +1,8 @@
 PRED SPUSTENIM!!
 v adresari balicku
 
-$colcon build --symlink-install >>>>>staci 1x
+$colcon build --symlink-install (staci 1x)
+
 $source install/setup.bash (v kazdem novem terminalu)
 
 
