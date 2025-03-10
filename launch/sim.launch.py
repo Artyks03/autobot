@@ -22,7 +22,7 @@ def generate_launch_description():
     rsp_launcher = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
                     get_package_share_directory(package),'launch','rsp.launch.py'
-                )]), launch_arguments={'use_sim_time': 'true', 'use_ros2_control': 'true'}.items()
+                )]), launch_arguments={'use_sim_time': 'true'}.items()
     )
     # definice 
 
@@ -43,12 +43,13 @@ def generate_launch_description():
                         output='screen')
 
 
+    # spusteni kontroleru se kterymi komunikuje gazebo ignition simulovanym controller managerem
     diff_drive_spawner = Node(package="controller_manager", executable="spawner", arguments=["diff_cont"])
 
     joint_broad_spawner = Node(package="controller_manager", executable="spawner", arguments=["joint_broad"])
 
-
-    bridge_params = os.path.join(get_package_share_directory(package),'config','gz_bridge.yaml')
+    # most k propojeni ROS/topics s GAZEBO/topics
+    bridge_params = os.path.join(get_package_share_directory(package),'params','gz_bridge.yaml')
     ros_gz_bridge = Node(
         package="ros_gz_bridge",
         executable="parameter_bridge",
@@ -62,16 +63,19 @@ def generate_launch_description():
         arguments=["/camera/image_raw"]
     )
 
-
-    return LaunchDescription([
-        joystick_launcher,
-        rsp_launcher,
-        world_arg,
-        gazebo_ignition,
-        robot_spawner,
-        diff_drive_spawner,
-        joint_broad_spawner,
-        ros_gz_bridge,
-        ros_gz_image_bridge,
-        
-    ])
+    ld = LaunchDescription()
+    # spusteni prvku
+    ld.add_action(joystick_launcher)
+    ld.add_action(rsp_launcher)
+    # spusteni gazeba
+    ld.add_action(world_arg)
+    ld.add_action(gazebo_ignition)
+    ld.add_action(robot_spawner)
+    # spusteni kontroleru
+    ld.add_action(diff_drive_spawner)
+    ld.add_action(joint_broad_spawner)
+    # spusteni mostu ros control a ign control
+    ld.add_action(ros_gz_bridge)
+    ld.add_action(ros_gz_image_bridge)
+    
+    return ld

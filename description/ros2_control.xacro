@@ -32,12 +32,15 @@
             </joint>
         </ros2_control>
     </xacro:unless>
-
-    <xacro:unless value="$(arg sim_mode)">
+    
+    <xacro:if value="$(arg sim_mode)">
+    <!--resource manager gazebo ignition / kontroluje akcni cleny po hardwarove strance -->
         <ros2_control name="IgnitionSystem" type="system">
             <hardware>
+                <!--hardwarove rozhrani plugin-->
                 <plugin>ign_ros2_control/IgnitionSystem</plugin>
             </hardware>
+                <!--kloub robota dle  URDF-->
             <joint name="left_wheel_joint">
                 <command_interface name="velocity">
                     <param name="min">-10</param>
@@ -56,11 +59,12 @@
             </joint>
         </ros2_control>
     </xacro:if>
-
+    <!--spusteni controller manager a simulace hardware -->
     <gazebo>
          <plugin filename="libign_ros2_control-system.so" name="ign_ros2_control::IgnitionROS2ControlPlugin">
-            <parameters>$(find robotek)/config/my_controllers.yaml</parameters>
-            <parameters>$(find robotek)/config/gaz_ros2_ctl_use_sim.yaml</parameters>
+            <!--gazebo simuluje controller manager a komunikuje se samotnyma kontrolerama -->
+            <parameters>$(find autobot)/params/my_controllers.yaml</parameters>
+            <parameters>$(find autobot)/params/gz_sim_time.yaml</parameters>
         </plugin>
     </gazebo>
 

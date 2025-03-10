@@ -11,7 +11,7 @@ def generate_launch_description():
     package_name='autobot'
     use_sim_time = LaunchConfiguration('use_sim_time')
 
-    joy_params = os.path.join(get_package_share_directory(package_name),'config','joystick.yaml')
+    joy_params = os.path.join(get_package_share_directory(package_name),'params','joystick.yaml')
 
     joy_node = Node(
             package='joy',
@@ -24,10 +24,10 @@ def generate_launch_description():
             executable='teleop_node',
             name='teleop_node',
             parameters=[joy_params, {'use_sim_time': use_sim_time}],
-            remappings=[('/cmd_vel','/cmd_vel_joy')]
+            remappings=[('/cmd_vel','/cmd_vel_joystick')]
          )
-    
-    twist_mux_params = os.path.join(get_package_share_directory(package_name),'config','twist_mux.yaml')
+    # papka /cmd_vel a /cmd_vel_joy, vyplivn
+    twist_mux_params = os.path.join(get_package_share_directory(package_name),'params','twist_mux.yaml')
     twist_mux = Node(
             package="twist_mux",
             executable="twist_mux",
