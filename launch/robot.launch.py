@@ -88,10 +88,10 @@ def generate_launch_description():
     ld.add_action(rplidar)
     ld.add_action(camera)
     ld.add_action(delayed_controller_manager)
-    ld.add_action(diff_drive_spawner)
-    ld.add_action(joint_broad_spawner)
-    #ld.add_action(delayed_diff_drive_spawner)
-    #ld.add_action(delayed_joint_broad_spawner)
+    #ld.add_action(diff_drive_spawner)
+    #ld.add_action(joint_broad_spawner)
+    ld.add_action(delayed_diff_drive_spawner)
+    ld.add_action(delayed_joint_broad_spawner)
 
     return ld
   
