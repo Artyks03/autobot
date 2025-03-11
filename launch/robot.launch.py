@@ -53,6 +53,7 @@ def generate_launch_description():
                     controller_params]
     )
     
+    delayed_controller_manager = TimerAction(period=3.0, actions=[controller_manager])
     
     diff_drive_spawner = Node(
         package="controller_manager",
@@ -80,7 +81,7 @@ def generate_launch_description():
         )
     )
 
-    delayed_controller_manager = TimerAction(period=3.0, actions=[controller_manager])
+    
 
     ld = LaunchDescription()
 
