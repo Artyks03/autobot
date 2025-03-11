@@ -13,7 +13,8 @@ from launch.event_handlers import OnProcessStart
 from launch_ros.actions import Node
 
 def generate_launch_description():
-
+    
+    # neni tu twist_mux, tj. navigace nepojede bez spusteneho joystick.launch.py
 
     package_name='autobot' 
 
