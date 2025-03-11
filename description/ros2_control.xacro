@@ -2,6 +2,7 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
     <xacro:unless value="$(arg sim_mode)">
+    <!--Resource Manager realneho robota / kontroluje akcni cleny po hardwarove strance -->
         <ros2_control name="RealRobot" type="system">
             <hardware>
                 <plugin>diffdrive_arduino/DiffDriveArduino</plugin>
@@ -34,7 +35,7 @@
     </xacro:unless>
     
     <xacro:if value="$(arg sim_mode)">
-    <!--resource manager gazebo ignition / kontroluje akcni cleny po hardwarove strance -->
+    <!--Resource Manager gazebo ignition / kontroluje simulovane akcni cleny po hardwarove strance -->
         <ros2_control name="IgnitionSystem" type="system">
             <hardware>
                 <!--hardwarove rozhrani plugin-->
