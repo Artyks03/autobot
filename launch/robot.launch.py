@@ -15,7 +15,7 @@ from launch_ros.actions import Node
 def generate_launch_description():
 
 
-    package_name='robotek' 
+    package_name='autobot' 
 
     rsp = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
@@ -27,21 +27,13 @@ def generate_launch_description():
                 PythonLaunchDescriptionSource([os.path.join(
                      get_package_share_directory(package_name),'launch','rplidar.launch.py'
                  )])
-     )
+    )
     
     camera = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
                      get_package_share_directory(package_name),'launch','camera.launch.py'
                  )])
-     )
-
-    twist_mux_params = os.path.join(get_package_share_directory(package_name),'params','twist_mux.yaml')
-    twist_mux = Node(
-            package="twist_mux",
-            executable="twist_mux",
-            parameters=[twist_mux_params],
-            remappings=[('/cmd_vel_out','/diff_cont/cmd_vel_unstamped')]
-        )
+    )
 
     robot_description = Command(['ros2 param get --hide-type /robot_state_publisher robot_description'])
 
@@ -53,20 +45,11 @@ def generate_launch_description():
         parameters=[{'robot_description': robot_description},
                     controller_params_file]
     )
-    
-    delayed_controller_manager = TimerAction(period=3.0, actions=[controller_manager])
 
     diff_drive_spawner = Node(
         package="controller_manager",
         executable="spawner",
         arguments=["diff_cont"],
-    )
-
-    delayed_diff_drive_spawner = RegisterEventHandler(
-        event_handler=OnProcessStart(
-            target_action=controller_manager,
-            on_start=[diff_drive_spawner],
-        )
     )
 
     joint_broad_spawner = Node(
@@ -75,21 +58,13 @@ def generate_launch_description():
         arguments=["joint_broad"],
     )
 
-    delayed_joint_broad_spawner = RegisterEventHandler(
-        event_handler=OnProcessStart(
-            target_action=controller_manager,
-            on_start=[joint_broad_spawner],
-        )
-    )
-
+    delayed_start = TimerAction(period=2.0, actions=[controller_manager, diff_drive_spawner, joint_broad_spawner])
     
-    # Launch them all!
-    return LaunchDescription([
-        rsp,
-        twist_mux,
-        rplidar,
-        camera,
-        delayed_controller_manager,
-        delayed_diff_drive_spawner,
-        delayed_joint_broad_spawner
-    ])
+    ld = LaunchDescription()
+
+    ld.add_action(rsp)
+    ld.add_action(rplidar)
+    ld.add_action(camera)
+    ld.add_action(delayed_start)
+
+    return ld
