@@ -80,7 +80,7 @@ def generate_launch_description():
         )
     )
 
-    delayed_controller_manager = TimerAction(period=3.0, actions=[controller_manager, diff_drive_spawner, joint_broad_spawner])
+    delayed_controller_manager = TimerAction(period=3.0, actions=[controller_manager])
 
     ld = LaunchDescription()
 
@@ -88,6 +88,8 @@ def generate_launch_description():
     ld.add_action(rplidar)
     ld.add_action(camera)
     ld.add_action(delayed_controller_manager)
+    ld.add_action(diff_drive_spawner)
+    ld.add_action(joint_broad_spawner)
     #ld.add_action(delayed_diff_drive_spawner)
     #ld.add_action(delayed_joint_broad_spawner)
 
