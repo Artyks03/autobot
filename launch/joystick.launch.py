@@ -26,7 +26,7 @@ def generate_launch_description():
             parameters=[joy_params, {'use_sim_time': use_sim_time}],
             remappings=[('/cmd_vel','/cmd_vel_joystick')]
          )
-    # papka /cmd_vel a /cmd_vel_joy, vyplivn
+
     twist_mux_params = os.path.join(get_package_share_directory(package_name),'params','twist_mux.yaml')
     twist_mux = Node(
             package="twist_mux",
@@ -36,7 +36,6 @@ def generate_launch_description():
         )
 
 
-    
     twist_stamper = Node(
             package='twist_stamper',
             executable='twist_stamper',
@@ -45,11 +44,12 @@ def generate_launch_description():
                         ('/cmd_vel_out','/diff_cont/cmd_vel')]
          )
     
-
-    return LaunchDescription([
-        DeclareLaunchArgument('use_sim_time', default_value='false', description='Use sim time if true'),
-        joy_node,
-        teleop_node,
-        twist_mux,
-        twist_stamper       
-    ])
+    ld = LaunchDescription()
+    
+    ld.add_action(DeclareLaunchArgument('use_sim_time', default_value='false', description='Use sim time if true'))
+    ld.add_action(joy_node)
+    ld.add_action(teleop_node)
+    ld.add_action(twist_mux)
+    ld.add_action(twist_stamper)
+    
+    return ld
