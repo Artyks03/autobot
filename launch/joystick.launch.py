@@ -12,44 +12,34 @@ def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time')
 
     joy_params = os.path.join(get_package_share_directory(package_name),'params','joystick.yaml')
+    twist_mux_params = os.path.join(get_package_share_directory(package_name),'params','twist_mux.yaml')
 
-    joy_node = Node(
+    return LaunchDescription([
+        DeclareLaunchArgument('use_sim_time', default_value='false', description='Use sim time if true'),
+        
+        Node(
             package='joy',
             executable='joy_node',
             parameters=[joy_params, {'use_sim_time': use_sim_time}],
-         )
-
-    teleop_node = Node(
+        ),
+        Node(
             package='teleop_twist_joy',
             executable='teleop_node',
             name='teleop_node',
             parameters=[joy_params, {'use_sim_time': use_sim_time}],
             remappings=[('/cmd_vel','/cmd_vel_joystick')]
-         )
-
-    twist_mux_params = os.path.join(get_package_share_directory(package_name),'params','twist_mux.yaml')
-    twist_mux = Node(
+        ),
+        Node(
             package="twist_mux",
             executable="twist_mux",
             parameters=[twist_mux_params, {'use_sim_time': use_sim_time}],
             remappings=[('/cmd_vel_out','/diff_cont/cmd_vel_unstamped')]
-        )
-
-
-    twist_stamper = Node(
+        ),
+        Node(
             package='twist_stamper',
             executable='twist_stamper',
             parameters=[{'use_sim_time': use_sim_time}],
             remappings=[('/cmd_vel_in','/diff_cont/cmd_vel_unstamped'),
                         ('/cmd_vel_out','/diff_cont/cmd_vel')]
-         )
-    
-    ld = LaunchDescription()
-    
-    ld.add_action(DeclareLaunchArgument('use_sim_time', default_value='false', description='Use sim time if true'))
-    ld.add_action(joy_node)
-    ld.add_action(teleop_node)
-    ld.add_action(twist_mux)
-    ld.add_action(twist_stamper)
-    
-    return ld
+        )
+    ])    

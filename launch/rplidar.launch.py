@@ -2,7 +2,6 @@ from launch import LaunchDescription
 from launch_ros.actions import Node
 
 def generate_launch_description():
-
     lidar = Node(
                 name='rplidar_composition',
                 package='rplidar_ros',
