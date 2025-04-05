@@ -64,7 +64,7 @@
     <gazebo>
          <plugin filename="libign_ros2_control-system.so" name="ign_ros2_control::IgnitionROS2ControlPlugin">
             <!--gazebo simuluje controller manager a komunikuje se samotnyma kontrolerama -->
-            <parameters>$(find autobot)/params/my_controllers.yaml</parameters>
+            <parameters>$(find autobot)/params/controllers_params.yaml</parameters>
             <parameters>$(find autobot)/params/gz_sim_time.yaml</parameters>
         </plugin>
     </gazebo>

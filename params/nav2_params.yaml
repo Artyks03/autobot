@@ -135,8 +135,8 @@ controller_server:
     general_goal_checker:
       stateful: True
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.10 #0.25
-      yaw_goal_tolerance: 0.10 #0.25
+      xy_goal_tolerance: 0.15 #0.25
+      yaw_goal_tolerance: 0.25 #0.25
     # DWB parameters//////////////////////////////////////////////////////////////
 
     FollowPath:
@@ -147,8 +147,8 @@ controller_server:
       vx_std: 0.2
       vy_std: 0.2
       wz_std: 0.4
-      vx_max: 0.5
-      vx_min: -0.35
+      vx_max: 0.15
+      vx_min: -0.15
       vy_max: 0.5
       wz_max: 1.9
       ax_max: 3.0
@@ -161,7 +161,7 @@ controller_server:
       temperature: 0.3
       gamma: 0.015
       motion_model: "DiffDrive"
-      visualize: false
+      visualize: true
       reset_period: 1.0 # (only in Humble)
       regenerate_noises: false
       TrajectoryVisualizer:
@@ -255,7 +255,7 @@ local_costmap:
       width: 3
       height: 3
       resolution: 0.01 #0.04
-      robot_radius: 0.20
+      robot_radius: 0.16
       plugins: ["voxel_layer", "inflation_layer"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
@@ -294,7 +294,7 @@ global_costmap:
       global_frame: map
       robot_base_frame: base_link
       use_sim_time: True
-      robot_radius: 0.20
+      robot_radius: 0.15
       resolution: 0.01 #0.04
       track_unknown_space: true
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
@@ -403,8 +403,8 @@ velocity_smoother:
     smoothing_frequency: 20.0
     scale_velocities: False
     feedback: "OPEN_LOOP"
-    max_velocity: [0.30, 0.0, 1.0]
-    min_velocity: [-0.30, 0.0, -1.0]
+    max_velocity: [0.15, 0.0, 1.0]
+    min_velocity: [-0.15, 0.0, -1.0]
     max_accel: [2.5, 0.0, 3.2]
     max_decel: [-2.5, 0.0, -3.2]
     odom_topic: "odom"
